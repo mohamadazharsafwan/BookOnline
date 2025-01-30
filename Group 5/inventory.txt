@@ -1,0 +1,53 @@
+01  A Game of Thrones                       89.70   4    
+02  A Court of Thorns and Roses             62.50   9    
+03  Atomic Habits                           29.90   11   
+04  And Then There Were None                55.70   9    
+05  Becoming by Michelle                    32.70   6    
+06  Big Little Lies                         28.90   13   
+07  Cinder by Marissa                       41.44   5    
+08  Dare to Lead                            38.00   8    
+09  Educated by Tara Westover               62.76   3    
+10  Foundation by Isaac Asimov              46.90   14   
+11  Good Omens by Neil Gaiman               31.70   5    
+12  Gone Girl by Gillian Flynn              33.20   7    
+13  Harry Potter and the Sorcerer's Stone   89.70   9    
+14  In the Woods                            23.60   10   
+15  Mistborn: The Final Empire              65.50   3    
+16  The Catcher in the Rye                  81.90   6    
+17  The Hobbit by J.R.R. Tolkien            45.67   4    
+18  The Alchemist                           28.50   5    
+19  The Kite Runner                         19.10   7    
+20  Thinking, Fast and Slow                 37.90   7    
+21  The Eye of the World                    52.00   4    
+22  The Way of Kings                        36.90   5    
+23  The Left Hand of Darkness               22.90   7    
+24  The Girl with the Dragon Tattoo         33.70   15   
+25  The Silent Patient                      11.80   12   
+26  The Da Vinci Code by Dan                44.10   5    
+27  The Woman in the Window                 56.60   7    
+28  The Couple Next Door                    21.70   8    
+29  The Maidens by Alex                     37.50   5    
+30  The Fault in Our Stars                  48.70   7    
+31  The Hunger Games                        85.80   6    
+32  The Cruel Prince                        67.90   16   
+33  The House of the Scorpion               46.70   6    
+34  The Perks of Being a Wallflower         23.00   9    
+35  Neuromancer by William Gibson           45.80   4    
+36  Pride and Prejudice                     48.00   7    
+37  Six of Crows by Leigh Bardugo           45.80   6    
+38  The Notebook by Nicholas                39.70   9    
+39  The Hating Game                         44.80   6    
+40  The Spanish Love                        36.80   3    
+41  The Shining by Stephen King             21.80   6    
+42  The Haunting of Hill House              67.90   17   
+43  The Only Good Indians                   34.10   5    
+44  The Glass Castle by Jeannette Walls     54.70   10   
+45  The Diary of a Young Girl               46.80   8    
+46  The Very Hungry Caterpillar             39.90   6    
+47  The Cat in the Hat                      42.10   4    
+48  Where the Wild Things Are               40.90   8    
+49  We Were Liars by E. Lockhart            58.90   6    
+50  War and Peace by Leo                    51.20   14   
+51  Where the Wild Things Are               46.70   8    
+52  Wonder by R.J. Palacio                  70.50   8    
+53  1984 by George Orwell                   49.00   16   
