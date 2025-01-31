@@ -2,6 +2,10 @@
 #include <vector>
 #include <string>
 
+
+#define YELLOW  "\033[33m"
+#define RED     "\033[31m"
+
 using namespace std;
 
 // Structure for Book Record
@@ -166,7 +170,7 @@ void searchBook() {
 // Function to delete a book by ID (Only staff can delete books)
 void deleteBook(string role) {
     if (role != "staff") {
-        cout << "Permission Denied! Only staff can delete books.\n";
+        cout << RED <<"Permission Denied! Only staff can delete books.\n";
         return;
     }
     int deleteID;
@@ -213,7 +217,7 @@ void admin() {
 // Function to update delivery status (Only staff can update)
 void updateDeliveryStatus(string role) {
     if (role != "staff") {
-        cout << "Permission Denied! Only staff can update order status.\n";
+        cout << RED <<"Permission Denied! Only staff can update order status.\n";
         return;
     }
     int bookID;
@@ -234,7 +238,7 @@ void updateDeliveryStatus(string role) {
 void menu(User* user) {
     int choice;
     do {
-        cout << "\n--- Book Store System ---\n";
+        cout << YELLOW << "\n--- Book Store System ---\n";
         cout << "1. Display Books\n";
         cout << "2. Add Book (Staff Only)\n";
         cout << "3. Search Book\n";
@@ -255,7 +259,7 @@ void menu(User* user) {
             case 6: displayOrders(); break;
             case 7: updateDeliveryStatus(user->role); break;
             case 8: cout << "Exiting...\n"; break;
-            default: cout << "Invalid choice!\n";
+            default: cout << RED <<"Invalid choice!\n";
         }
     } while (choice != 8);
 }
@@ -265,7 +269,7 @@ void adminMenu(User* user) {
     string username, password;
     string role = user->role;
     do {
-        cout << "\n--- Admin Menu ---\n";
+        cout << YELLOW <<"\n--- Admin Menu ---\n";
         cout << "1. Register New Staff\n";
         cout << "2. Manage Books\n";
         cout << "3. View Orders\n";
@@ -289,7 +293,7 @@ void adminMenu(User* user) {
             case 3: displayOrders(); break;
             case 4: updateDeliveryStatus(user->role); break;
             case 5: cout << "Logging out...\n"; return;
-            default: cout << "Invalid choice!\n";
+            default: cout << RED << "Invalid choice!\n";
         }
         } while (true);
     }
@@ -298,7 +302,8 @@ int main() {
     // Existing registration and login logic
     int choice;
     do {
-        cout << "\n--- Welcome to the Book Store ---\n";
+        cout << YELLOW <<"\n--- Welcome to the Book Store ---\n";
+
         cout << "1. Register\n";
         cout << "2. Login\n";
         cout << "3. Exit\n";
