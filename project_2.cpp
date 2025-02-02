@@ -9,21 +9,18 @@
 
 using namespace std;
 
-// ANSI color codes
 #define YELLOW  "\033[33m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
 #define BLUE    "\033[34m"
 #define RESET   "\033[0m"
 
-// File names
 const string CUSTOMER_FILE = "customers.txt";
 const string BOOK_FILE = "books.txt";
 const string ORDER_FILE = "orders.txt";
 const string ADMIN_FILE = "admins.txt";
 const string SALES_FILE = "sales_report.txt";
 
-// Date structure
 struct Date {
     int day, month, year;
 
@@ -38,7 +35,6 @@ struct Date {
     }
 };
 
-// Book class
 class Book {
 public:
     string ISBN;
@@ -58,7 +54,6 @@ public:
     }
 };
 
-// Order class
 class Order {
 public:
     string orderId;
@@ -80,7 +75,6 @@ public:
     }
 };
 
-// Customer class
 class Customer {
 public:
     string id;
@@ -121,7 +115,6 @@ public:
     }
 };
 
-// Admin class
 class Admin : public Customer {
 public:
     Admin() {
@@ -134,7 +127,6 @@ public:
     }
 };
 
-// Book Manager
 class BookManager {
 public:
     Book *head;
@@ -198,12 +190,12 @@ public:
 
     void mergeSortByTitle() {
         head = mergeSort(head);
-        cout << GREEN << "Sorted using Merge Sort!\n";
+        cout << GREEN << "Sorted (A-Z) using Merge Sort!\n";
     }
 
     void quickSortByTitle() {
         head = quickSort(head, true);
-        cout << GREEN << "Sorted using Quick Sort!\n";
+        cout << GREEN << "Sorted (Z-A) using Quick Sort!\n";
     }
 
 private:
@@ -277,7 +269,7 @@ private:
 
         while (curr) {
             Book *next = curr->next;
-            if ((byTitle && curr->title < pivot->title) || 
+            if ((byTitle && curr->title > pivot->title) || 
                 (!byTitle && curr->ISBN < pivot->ISBN)) {
                 curr->next = left;
                 left = curr;
@@ -301,7 +293,6 @@ private:
     }
 };
 
-// Order Manager
 class OrderManager {
 public:
     Order *head;
@@ -404,7 +395,6 @@ private:
     }
 };
 
-// Customer Manager
 class CustomerManager {
 public:
     Customer *head;
@@ -532,7 +522,6 @@ private:
     }
 };
 
-// Main Application
 class BookstoreApp {
     BookManager books;
     CustomerManager customers;
@@ -565,7 +554,6 @@ private:
         return role;
     }
 
-    // Customer Flow
     void customerFlow() {
         int choice;
         do {
@@ -622,7 +610,6 @@ private:
         } while (choice != 7);
     }
 
-    // Admin Flow
     void adminFlow() {
         string email, password;
         cout << "Admin Email: ";
@@ -664,14 +651,13 @@ private:
         } while (choice != 8);
     }
 
-    // Common Functions
     void displayBooks() {
         cout << "\nBefore sorting:\n";
         books.displayBooks();
         
         cout << "Choose sorting algorithm:\n"
-             << "1. Merge Sort by Title\n"
-             << "2. Quick Sort by Title\nChoice: ";
+             << "1. Merge Sort by Title (A-Z)\n"
+             << "2. Quick Sort by Title (Z-A)\nChoice: ";
         int sortChoice;
         cin >> sortChoice;
         
