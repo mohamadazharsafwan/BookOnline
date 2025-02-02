@@ -1,7 +1,0 @@
-1,admin,admin123,admin@example.com,SuperAdmin
-2,user,user123,user@example.com,Admin
-3,staff1,staff123,staff1@example.com,Staff
-4,staff2,staff123,staff2@example.com,Staff
-5,staff3,staff123,staff3@example.com,Staff
-6,staff4,staff123,staff4@example.com,Staff
-7,staff5,staff123,staff5@example.com,Staff

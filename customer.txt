@@ -1,3 +1,0 @@
-1,john_doe,password123,john.doe@example.com
-2,jane_smith,securepassword,jane.smith@example.com
-3,alice_jones,mypassword,alice.jones@example.com

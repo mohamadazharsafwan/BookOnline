@@ -1,7 +1,0 @@
-# This file is used to store the items in the shopping cart for the BookOnline project.
-# Each line represents an item in the cart with the following format:
-# item_id, item_name, quantity, price
-
-# Example:
-# 1, "The Great Gatsby", 2, 10.99
-# 2, "1984", 1, 8.99
