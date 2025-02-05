@@ -1427,49 +1427,83 @@ void placeOrder(Customer *customer) {
     vector<Book*> booksVec = books.getBooksVector();
     books.bubbleSortByISBN(booksVec);
 
+    // Display available books
     cout << "\nAvailable Books:\n";
     books.displayBooks();
     
+    // Prompt user to enter ISBNs to purchase
     cout << "Enter ISBNs to purchase (separated by spaces, 0 to finish):\n";
     string isbn;
+
+    // Continue until user enters 0
     while (true) {
+
+        // Get ISBN from user
         cin >> isbn;
         if (isbn == "0") break;
         
+        // Search for book by ISBN
         Book *book = books.binarySearchByISBN(booksVec, isbn);
         if (book && book->stock > 0) {
             isbns.push_back(isbn);
             total += book->price;
             book->stock--;
+
+            
         } else {
             cout << RED << "Invalid ISBN or out of stock!\n";
         }
     }
 
+    // Place order if there are books in the cart
     if (!isbns.empty()) {
+
+        // Create a new order
         Order *newOrder = new Order(
+
+            // Generate a random order ID
             "ORD" + to_string(rand() % 9000 + 1000),
+
+            // Get customer ID
             customer->id,
+
+            // Get book ISBNs
             isbns,
+
+            // Calculate total price
             total,
+
+            // Get current date
             getCurrentDate()
         );
+
+        // Add order to the order manager and customer's order history
         orders.addOrder(newOrder);
+
+        // Add order to the customer's order history
         customer->addOrder(newOrder);
+
+        // Save the updated book data
         books.saveToFile();
         cout << GREEN << "Order placed successfully! Total: $" << total << "\n";
     }
 }
+
+    // Admin actions
     void addBook()
     {
+        // Get book details from the admin
         string ISBN, title, author;
         double price;
         int stock;
 
+        // Prompt the admin to enter the book details
         cout << "Enter ISBN: ";
         cin >> ISBN;
         cout << "Enter title: ";
         cin.ignore();
+
+        // Get the title with spaces
         getline(cin, title);
         cout << "Enter author: ";
         getline(cin, author);
@@ -1478,58 +1512,87 @@ void placeOrder(Customer *customer) {
         cout << "Enter stock: ";
         cin >> stock;
 
+        // Add the book to the book manager
         books.addBook(new Book(ISBN, title, author, price, stock));
+
+        // Display a message after adding the book
         books.saveToFile();
         cout << GREEN << "Book added successfully!\n";
     }
 
+    // Admin actions
     void editBook()
     {
+        // Get the ISBN of the book to edit
         string ISBN;
         cout << "Enter ISBN to edit: ";
         cin >> ISBN;
 
+        // Find the book by ISBN
         Book *book = books.findBook(ISBN);
+
+        // Update the book details
         if (book)
         {
+            // Prompt the admin to enter the new book details
             cout << "Enter new price (" << book->price << "): ";
             cin >> book->price;
             cout << "Enter new stock (" << book->stock << "): ";
             cin >> book->stock;
+
+            // Save the updated book data
             books.saveToFile();
             cout << GREEN << "Book updated!\n";
         }
+
+        // Display a message if the book is not found
         else
         {
             cout << RED << "Book not found!\n";
         }
     }
 
+    // Admin actions
     void deleteBook()
     {
+        // Get the ISBN of the book to delete
         string ISBN;
         cout << "Enter ISBN to delete: ";
         cin >> ISBN;
+
+        // Delete the book by ISBN
         books.deleteBook(ISBN);
     }
 
+    // Admin actions
     void generateReport()
     {
+        // Generate a sales report
         ofstream report(SALES_FILE);
+
+        // Display the sales report
         Order *current = orders.head;
+
+        // Iterate through the orders to generate the sales report
         while (current)
         {
+            // Write the order details to the report
             report << "Order ID: " << current->orderId
                    << ", Total: $" << current->total
                    << ", Date: " << current->date.toString() << "\n";
+
+            // Move to the next order
             current = current->next;
         }
+
         cout << GREEN << "Sales report generated!\n";
     }
 };
 
+//Main function
 int main()
 {
+    //Creates a bookstore application and runs it
     BookstoreApp app;
     app.run();
     return 0;
