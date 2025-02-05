@@ -876,102 +876,176 @@ public:
         delete admin;
     }
 
+    //Registers a new customer
     Customer *registerCustomer()
     {
+        //Creates a new customer
         Customer *newCustomer = new Customer();
         cout << "Enter name: ";
         cin.ignore();
+
+        //Stores the name of the new customer
         getline(cin, newCustomer->name);
         cout << "Enter email: ";
+
+        //Stores the email of the new customer
         cin >> newCustomer->email;
         cout << "Enter password: ";
+
+        //Stores the password of the new customer
         cin >> newCustomer->password;
 
+        //Adds the new customer to the customer manager
         if (!head)
+            //If the customer manager is empty, set the new customer as the first customer
             head = newCustomer;
         else
         {
+            //Otherwise, add the new customer to the end of the customer manager
             Customer *temp = head;
+
+            //Iterates through the customer manager to find the last customer
             while (temp->next)
+
+            //Sets the next customer as the last customer
                 temp = temp->next;
+
+                //Adds the new customer to the end of the customer manager
             temp->next = newCustomer;
         }
+        //Saves the customer data to a file
         saveCustomers();
+
+        //Returns the new customer
         return newCustomer;
     }
 
+    //Logs in a customer
     Customer *login(const string &email, const string &password)
-    {
+    {   
+        //Pointer to the current customer
         Customer *current = head;
+
+        //Iterates through the customer manager to find the customer with the given email and password
         while (current)
-        {
+        {   
+            //If the email and password of the current customer match the given email and password
             if (current->email == email && current->password == password)
             {
+                //Returns the current customer
                 return current;
             }
+
+            //Moves to the next customer
             current = current->next;
         }
+
+        //Returns null if the customer with the given email and password is not found
         return nullptr;
     }
 
+    //Displays all the customers in the customer manager
     void deleteCustomer(Customer *customer)
-    {
+    {   
+        //Pointer to the current customer and the previous customer
         Customer *curr = head, *prev = nullptr;
+
+        //Iterates through the customer manager to find the customer
         while (curr)
+
         {
+            //If the current customer matches the given customer
             if (curr == customer)
+
             {
+                //If the previous customer is not null, set the next customer as the next of the previous customer
                 if (prev)
                     prev->next = curr->next;
                 else
+
+                    //Otherwise, set the next customer as the first customer
                     head = curr->next;
+
+                    //Deletes the current customer
                 delete curr;
+
+                //Displays a message after deleting the customer
                 cout << GREEN << "Account deleted!\n";
+
+                //Saves the customer data to a file
                 saveCustomers();
                 return;
             }
+
+            //Moves to the next customer
             prev = curr;
             curr = curr->next;
         }
     }
 
+    //Displays all the customers in the customer manager
     void saveCustomers()
     {
+        //Opens the file for writing
         ofstream file(CUSTOMER_FILE);
+
+        //Pointer to the current customer
         Customer *current = head;
+
+        //Iterates through the customer manager to write the customer data to the file
         while (current)
         {
+            //Writes the ID, name, email, and password of the current customer to the file
             file << current->id << "," << current->name << ","
                  << current->email << "," << current->password << "\n";
+
+            //Moves to the next customer
             current = current->next;
         }
     }
 
+    //Displays all the customers in the customer manager
 private:
+
     void loadCustomers()
     {
+        //Opens the file for reading
         ifstream file(CUSTOMER_FILE);
         string line;
+
+        //Iterates through the lines in the file
         while (getline(file, line))
         {
+            //Creates a string stream from the line
             stringstream ss(line);
+
+            //Stores the ID, name, email, and password
             string id, name, email, password;
             getline(ss, id, ',');
             getline(ss, name, ',');
             getline(ss, email, ',');
             getline(ss, password, ',');
 
+            //Creates a new customer
             Customer *newCustomer = new Customer();
+
+            //Stores the ID, name, email, and password of the new customer
             newCustomer->id = id;
             newCustomer->name = name;
             newCustomer->email = email;
             newCustomer->password = password;
 
+            //Adds the new customer to the customer manager
             if (!head)
+
+                //If the customer manager is empty, set the new customer as the first customer
                 head = newCustomer;
             else
             {
+                //Otherwise, add the new customer to the end of the customer manager
                 Customer *temp = head;
+
+                //Iterates through the customer manager to find the last customer
                 while (temp->next)
                     temp = temp->next;
                 temp->next = newCustomer;
@@ -979,19 +1053,27 @@ private:
         }
     }
 
+    //Loads the admin data from a file
     void loadAdmin()
     {
+        //Opens the file for reading
         ifstream file(ADMIN_FILE);
         string line;
+
+        //Stores the current line
         if (getline(file, line))
         {
+            //Creates a string stream from the line
             stringstream ss(line);
+
+            //Stores the ID, name, email, and password
             string id, name, email, password;
             getline(ss, id, ',');
             getline(ss, name, ',');
             getline(ss, email, ',');
             getline(ss, password, ',');
 
+            //Creates a new admin
             admin = new Admin();
             admin->id = id;
             admin->name = name;
@@ -1000,10 +1082,13 @@ private:
         }
     }
 
+    //Clears the customer manager
     void clearCustomers()
     {
+        //Pointer to the current customer
         while (head)
         {
+            //Stores the current customer
             Customer *temp = head;
             head = head->next;
             delete temp;
