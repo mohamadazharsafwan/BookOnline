@@ -1090,46 +1090,75 @@ private:
         {
             //Stores the current customer
             Customer *temp = head;
+
+            //Moves to the next customer
             head = head->next;
+
+            //Deletes the current customer
             delete temp;
         }
     }
 };
 
+//Class to manage the bookstore application
 class BookstoreApp
 {
+    //Stores the book manager, customer manager, and order manager
     BookManager books;
     CustomerManager customers;
     OrderManager orders;
 
+    //Displays the welcome message
 public:
+
+    //Runs the bookstore application
     void run()
     {
+        //Sets the seed for the random number generator
         srand(time(0));
+
+        //Displays the welcome message
         showWelcome();
+
+        //Prompts the user to choose a role
         int role = getRole();
 
+        //Runs the customer or admin flow based on the role
         if (role == 1)
             customerFlow();
+
+            //Runs the admin flow
         else if (role == 2)
             adminFlow();
         else
             cout << RED << "Invalid selection!\n";
     }
 
+    //Displays the book data
 private:
+
+    //Displays the book data
     void searchBookByISBN()
     {
+        //Prompts the user to enter the ISBN to search
         string isbn;
+
+        //Stores the ISBN to search
         cout << "Enter ISBN to search (0 to cancel): ";
         cin >> isbn;
+
+        //Returns if the ISBN is 0
         if (isbn == "0")
             return;
 
+        //Sorts the books by ISBN using bubble sort
         vector<Book *> booksVec = books.getBooksVector();
         books.bubbleSortByISBN(booksVec);
+
+        //Searches the book by ISBN using binary search
         Book *foundBook = books.binarySearchByISBN(booksVec, isbn);
 
+        //Displays the book if found
         if (foundBook)
         {
             foundBook->display();
@@ -1139,6 +1168,7 @@ private:
             cout << RED << "Book not found!\n";
         }
     }
+
     void showWelcome()
     {
         cout << YELLOW << "********************************************************************\n"
@@ -1149,16 +1179,20 @@ private:
              << RESET;
     }
 
+    //Prompts the user to choose a role
     int getRole()
     {
+
         int role;
         cout << "\n1. Customer\n2. Admin\nChoose Role: ";
         cin >> role;
         return role;
     }
 
+    //Customer flow
     void customerFlow()
     {
+        //Prompts the user to register, login, or exit
         int choice;
         do
         {
@@ -1167,6 +1201,7 @@ private:
 
             if (choice == 1)
             {
+                //Registers a new customer
                 Customer *customer = customers.registerCustomer();
                 customerMenu(customer);
             }
@@ -1178,8 +1213,10 @@ private:
                 cout << "Password: ";
                 cin >> password;
 
+                //Logs in the customer
                 Customer *customer = customers.login(email, password);
                 if (customer)
+
                 {
                     cout << GREEN << "Login successful!\n";
                     customerMenu(customer);
@@ -1192,6 +1229,7 @@ private:
         } while (choice != 3);
     }
 
+    //Customer menu
     void customerMenu(Customer *customer)
     {
         int choice;
@@ -1207,29 +1245,45 @@ private:
                  << "7. Logout\nChoice: ";
             cin >> choice;
 
+            //Performs the selected action
             switch (choice)
+
+            
             {
+                //Displays the customer profile
             case 1:
                 customer->display();
                 break;
+
+                //Displays the books
             case 2:
                 displayBooks();
                 searchBookByISBN();
                 break;
+
+                //Displays the order history
             case 3:
                 displayOrderHistory(customer);
                 break;
+
+                //Places an order
             case 4:
                 placeOrder(customer);
                 break;
+
+                //Updates the customer profile
             case 5:
                 customer->updateProfile();
                 customers.saveCustomers();
                 break;
+
+                //Deletes the customer account
             case 6:
                 customers.deleteCustomer(customer);
                 return;
             }
+
+            //Logs out the customer
         } while (choice != 7);
     }
 
