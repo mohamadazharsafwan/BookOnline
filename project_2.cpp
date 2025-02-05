@@ -1287,14 +1287,19 @@ private:
         } while (choice != 7);
     }
 
+
+    //Admin flow
     void adminFlow()
     {
+
+        //Prompts the user to login as an admin
         string email, password;
         cout << "Admin Email: ";
         cin >> email;
         cout << "Password: ";
         cin >> password;
 
+        //Logs in the admin
         if (customers.admin && customers.admin->email == email &&
             customers.admin->password == password)
         {
@@ -1302,13 +1307,18 @@ private:
         }
         else
         {
+            //Displays a message if the login fails
             cout << RED << "Admin login failed!\n";
         }
     }
 
+    //Admin menu
     void adminMenu()
     {
+        //Prompts the admin to choose an action
         int choice;
+
+        //Displays the admin menu
         do
         {
             cout << RED << "\nAdmin Menu\n"
