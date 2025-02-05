@@ -281,62 +281,98 @@ public:
         }
     }
 
+    //Finds a book by ISBN
     Book *findBook(const string &ISBN)
     {
+        //Pointer to the current book
         Book *current = head;
+
+        //Iterates through the book manager to find the book with the given ISBN
         while (current)
         {
+            //If the ISBN of the current book matches the given ISBN, return the current book
             if (current->ISBN == ISBN)
                 return current;
+
+                //Moves to the next book
             current = current->next;
         }
+
+        //Returns null if the book with the given ISBN is not found
         return nullptr;
     }
 
+    //Deletes a book by ISBN
     void deleteBook(const string &ISBN)
     {
+        //Pointer to the current book and the previous book
         Book *curr = head, *prev = nullptr;
         while (curr)
         {
+            //If the ISBN of the current book matches the given ISBN
             if (curr->ISBN == ISBN)
             {
+                //If the previous book is not null, set the next book as the next of the previous book
                 if (prev)
                     prev->next = curr->next;
                 else
+
+                    //Otherwise, set the next book as the first book
                     head = curr->next;
+
+                    //Deletes the current book
                 delete curr;
                 cout << GREEN << "Book deleted!\n";
                 saveToFile();
                 return;
             }
+
+            //Moves to the next book
             prev = curr;
             curr = curr->next;
         }
         cout << RED << "Book not found!\n";
     }
 
+    //Saves the book data to a file
     void saveToFile()
     {
+        //Opens the file for writing
         ofstream file(BOOK_FILE);
+
+        //Pointer to the current book
         Book *current = head;
+
+        //Iterates through the book manager to write the book data to the file
         while (current)
         {
+            //Writes the ISBN, title, author, price, and stock of the current book to the file
             file << current->ISBN << "," << current->title << ","
                  << current->author << "," << current->price << ","
                  << current->stock << "\n";
+
+                 //Moves to the next book
             current = current->next;
         }
     }
 
+    //Loads the book data from a file
     void mergeSortByTitle()
     {
+        //Sorts the books by title using merge sort
         head = mergeSort(head);
+        
+        //Displays a message after sorting
         cout << GREEN << "Sorted (A-Z) using Merge Sort!\n";
     }
 
+    //Loads the book data from a file
     void quickSortByTitle()
     {
+        //Sorts the books by title using quick sort
         head = quickSort(head, true);
+
+        //Displays a message after sorting
         cout << GREEN << "Sorted (Z-A) using Quick Sort!\n";
     }
 
@@ -817,11 +853,11 @@ private:
     }
     void showWelcome()
     {
-        cout << YELLOW << "************************************************\n"
-             << "------------------------------------------------\n"
-             << "*****WELCOME TO ONLINE BOOK SHOPPING SYSTEM*****\n"
-             << "------------------------------------------------\n"
-             << "************************************************\n"
+        cout << YELLOW << "********************************************************************\n"
+             << "--------------------------------------------------------------------\n"
+             << "***************WELCOME TO ONLINE BOOK SHOPPING SYSTEM***************\n"
+             << "--------------------------------------------------------------------\n"
+             << "********************************************************************\n"
              << RESET;
     }
 
