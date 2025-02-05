@@ -1,181 +1,282 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <ctime>
-#include <cstdlib>
-#include <iomanip>
+#include <iostream>  // For cin, cout
+#include <string>  // For string
+#include <vector> // For vector
+#include <fstream> // For file I/O
+#include <sstream> // For string stream
+#include <ctime> // For time
+#include <cstdlib> // For rand, srand
+#include <iomanip> // For setprecision
 
 using namespace std;
 
+// ANSI color codes for text formatting
 #define YELLOW "\033[33m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define BLUE "\033[34m"
 #define RESET "\033[0m"
 
-const string CUSTOMER_FILE = "customers.txt";
+
+//Stores the filename for the customer data file
+const string CUSTOMER_FILE = "customers.txt"; 
+
+//Stores the filename for the book data file
 const string BOOK_FILE = "books.txt";
+
+//Stores the filename for the order data file
 const string ORDER_FILE = "orders.txt";
+
+//Stores the filename for the admin data file
 const string ADMIN_FILE = "admins.txt";
+
+//Stores the filename for the sales report file
 const string SALES_FILE = "sales_report.txt";
 
+
+//Structure to store the date
 struct Date
 {
+    //Stores the day, month, and year
     int day, month, year;
 
+    //Converts the date to a string
     string toString() const
     {
+        //Returns the date in the format day/month/year
         return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
     }
 
+    //Overloads the less than operator
     bool operator>(const Date &other) const
     {
+        //Compares the years first
         if (year != other.year)
+
+        //Returns true if the year is greater than the other year
             return year > other.year;
+
+            //Compares the months next
         if (month != other.month)
+
+        //Returns true if the month is greater than the other month
             return month > other.month;
         return day > other.day;
     }
 };
 
+//Class to store the book data
 class Book
 {
+    //Stores the ISBN, title, author, price, stock, and a pointer to the next book
 public:
     string ISBN;
     string title;
     string author;
     double price;
     int stock;
+
+    //Pointer to the next book
     Book *next;
 
+    //Constructor to initialize the book data
     Book(string isbn, string t, string a, double p, int s)
         : ISBN(isbn), title(t), author(a), price(p), stock(s), next(nullptr) {}
 
+    //Displays the book data
     void display() const
     {
+        //Displays the book data in the format ISBN, title, author, price, and stock
         cout << YELLOW << "ISBN: " << ISBN << "\nTitle: " << title
              << "\nAuthor: " << author << "\nPrice: $" << fixed << setprecision(2) << price
              << "\nStock: " << stock << RESET << "\n\n";
     }
 };
 
+//Class to store the order data
 class Order
 {
 public:
     string orderId;
     string customerId;
+
+    //Stores the ISBNs of the books in the order
     vector<string> bookISBNs;
     double total;
     Date date;
+
+    //Pointer to the next order
     Order *next;
 
+    //Constructor to initialize the order data
     Order(string oid, string cid, vector<string> isbns, double t, Date d)
         : orderId(oid), customerId(cid), bookISBNs(isbns), total(t), date(d), next(nullptr) {}
 
+    //Displays the order data
     void display() const
     {
+        //Displays the order data in the format Order ID, Customer ID, Total, Date, and Books
         cout << YELLOW << "Order ID: " << orderId << "\nCustomer ID: " << customerId
              << "\nTotal: $" << fixed << setprecision(2) << total << "\nDate: " << date.toString()
              << "\nBooks: ";
+
+        //Displays the ISBNs of the books in the order
         for (const auto &isbn : bookISBNs)
             cout << isbn << " ";
         cout << RESET << "\n\n";
     }
 };
 
+//Class to store the customer data
 class Customer
 {
+    //Stores the customer ID, name, email, password, order history, and a pointer to the next customer
 public:
     string id;
     string name;
     string email;
     string password;
+
+    //Pointer to the order history
     Order *orderHistory;
+
+    //Pointer to the next customer
     Customer *next;
 
+    //Constructor to initialize the customer data
     Customer() : orderHistory(nullptr), next(nullptr)
     {
+        //Generates a random ID for the customer
         id = generateID();
     }
 
+    //Generates a random ID for the customer
     static string generateID()
     {
+        //Returns a random 5-digit number as a string
         return to_string(rand() % 90000 + 10000);
     }
 
+    //Displays the customer data
     void display() const
     {
+        //Displays the customer data in the format ID, name, and email
         cout << GREEN << "ID: " << id << "\nName: " << name
              << "\nEmail: " << email << RESET << "\n\n";
     }
 
+    //Adds an order to the order history
     void addOrder(Order *order)
     {
+        //If the order history is empty, set the order as the first order
         if (!orderHistory)
+
+            //Otherwise, add the order to the end of the order history
             orderHistory = order;
         else
-        {
+        {   
+            //Pointer to the last order in the order history
             Order *temp = orderHistory;
+
+            //Iterates through the order history to find the last order
             while (temp->next)
+
+                //Sets the next order as the last order
                 temp = temp->next;
+
+                //Adds the order to the end of the order history
             temp->next = order;
         }
     }
 
+    //Updates the customer profile
     void updateProfile()
     {
+        //Prompts the user to enter the new name and email
         cout << "Enter new name (" << name << "): ";
         cin.ignore();
+
+        //Stores the new name
         getline(cin, name);
+
+        //Prompts the user to enter the new email
         cout << "Enter new email (" << email << "): ";
         cin >> email;
     }
 };
 
-class Admin : public Customer
+//Class to store the admin data
+class Admin : public Customer //Inherits the customer data
 {
 public:
+    //Constructor to initialize the admin data
     Admin()
     {
+        //Generates a random ID for the admin
         id = "ADM-" + generateID();
     }
 
+    //Displays the admin data
     void display() const
     {
+
+        //Displays the admin data in the format ID, name, and email
         cout << RED << "Admin ID: " << id << "\nName: " << name
              << "\nEmail: " << email << RESET << "\n\n";
     }
 };
 
+//Class to manage the book data
 class BookManager
 {
 public:
+
+    //Pointer to the first book
     Book *head;
 
+    //Constructor to initialize the book manager
     BookManager() : head(nullptr) { loadFromFile(); }
+
+    //Destructor to clear the book manager
     ~BookManager() { clear(); }
 
+    //Adds a new book to the book manager
     void addBook(Book *newBook)
     {
+        //If the book manager is empty, set the new book as the first book
         if (!head)
+
+            //Otherwise, add the new book to the end of the book manager
             head = newBook;
         else
         {
+            //Pointer to the last book in the book manager
             Book *temp = head;
+
+            //Iterates through the book manager to find the last book
             while (temp->next)
+
+                //Sets the next book as the last book
                 temp = temp->next;
+
+                //Adds the new book to the end of the book manager
             temp->next = newBook;
         }
     }
 
+    //Displays all the books in the book manager
     void displayBooks() const
     {
+        //Pointer to the current book
         Book *current = head;
+
+
+        //Iterates through the book manager to display all the books
         while (current)
         {
+            //Displays the current book
             current->display();
+
+            //Moves to the next book
             current = current->next;
         }
     }
