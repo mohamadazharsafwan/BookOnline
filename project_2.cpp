@@ -376,299 +376,502 @@ public:
         cout << GREEN << "Sorted (Z-A) using Quick Sort!\n";
     }
 
+    //Loads the book data from a file
      vector<Book*> getBooksVector() {
+
+        //Vector to store the books
         vector<Book*> booksVec;
+
+        //Pointer to the current book
         Book* current = head;
+
+        //Iterates through the book manager to add the books to the vector
         while (current) {
+            //Adds the current book to the vector
             booksVec.push_back(current);
+            //Moves to the next book
             current = current->next;
         }
+        //Returns the vector of books
         return booksVec;
     }
 
+    //Sorts the books by ISBN using bubble sort
     void bubbleSortByISBN(vector<Book*>& booksVec) {
+        //Stores the number of books
         int n = booksVec.size();
+        //Flag to check if the books are swapped
         bool swapped;
+        //Iterates through the books to sort them
         for (int i = 0; i < n-1; i++) {
+            //Resets the swapped flag
             swapped = false;
+            //Iterates through the books to compare them
             for (int j = 0; j < n-i-1; j++) {
+                //Swaps the books if they are in the wrong order
                 if (booksVec[j]->ISBN > booksVec[j+1]->ISBN) {
+                    //Swaps the books
                     swap(booksVec[j], booksVec[j+1]);
+                    //Sets the swapped flag
                     swapped = true;
                 }
             }
+            //Breaks if the books are not swapped
             if (!swapped) break;
         }
     }
 
+    //Sorts the books by ISBN using binary search
     Book* binarySearchByISBN(const vector<Book*>& booksVec, const string& ISBN) {
+        //Stores the left and right indices
         int left = 0;
+        //Stores the right index
         int right = booksVec.size() - 1;
+        //Iterates through the books to find the book with the given ISBN
         while (left <= right) {
+            //Calculates the middle index
             int mid = left + (right - left) / 2;
+            //Returns the book if the ISBN matches
             if (booksVec[mid]->ISBN == ISBN) {
                 return booksVec[mid];
+
+                //Searches the left half if the ISBN is smaller
             } else if (booksVec[mid]->ISBN < ISBN) {
+                //Updates the left index
                 left = mid + 1;
             } else {
+                //Updates the right index
                 right = mid - 1;
             }
         }
+        //Returns null if the book with the given ISBN is not found
         return nullptr;
     }
 
+    //Sorts the books by title using merge sort
 private:
+    //Loads the book data from a file
     void loadFromFile()
+    
     {
+        //Opens the file for reading
         ifstream file(BOOK_FILE);
+        //Stores the current line
         string line;
+        //Iterates through the lines in the file
         while (getline(file, line))
+
         {
+            //Creates a string stream from the line
             stringstream ss(line);
+
+            //Stores the ISBN, title, author, price, and stock
             string ISBN, title, author, priceStr, stockStr;
+
+            //Extracts the data from the string stream
             getline(ss, ISBN, ',');
             getline(ss, title, ',');
             getline(ss, author, ',');
             getline(ss, priceStr, ',');
             getline(ss, stockStr, ',');
 
+            //Adds a new book to the book manager
             addBook(new Book(ISBN, title, author, stod(priceStr), stoi(stockStr)));
         }
     }
 
+    //Clears the book manager
     void clear()
+
     {
+        //Pointer to the current book
         while (head)
         {
+            //Stores the current book
             Book *temp = head;
+
+            //Moves to the next book
             head = head->next;
+
+            //Deletes the current book
             delete temp;
         }
     }
 
+    //Merges two sorted linked lists
     Book *mergeSort(Book *head)
     {
+        //Returns the head if the list is empty or has one element
         if (!head || !head->next)
+        
             return head;
 
+        //Pointers to the slow and fast nodes
         Book *slow = head;
+
+        //Stores the next node
         Book *fast = head->next;
 
+        //Iterates through the list to find the middle node
         while (fast && fast->next)
         {
+            //Moves the slow pointer by one node
             slow = slow->next;
+
+            //Moves the fast pointer by two nodes
             fast = fast->next->next;
         }
 
+        //Stores the middle node
         Book *mid = slow->next;
+
+        //Splits the list into two halves
         slow->next = nullptr;
 
+        //Merges the two sorted halves
         return merge(mergeSort(head), mergeSort(mid));
     }
 
+    //Merges two sorted linked lists
     Book *merge(Book *left, Book *right)
     {
+        //Creates a dummy node
         Book dummy("", "", "", 0, 0);
+
+        //Pointer to the current node
         Book *curr = &dummy;
 
+
+        //Merges the two lists
         while (left && right)
         {
+            //Adds the smaller node to the merged list
             if (left->title < right->title)
             {
+                //Sets the next node as the left node
                 curr->next = left;
                 left = left->next;
             }
             else
             {
+                //Sets the next node as the right node
                 curr->next = right;
                 right = right->next;
             }
+            //Moves to the next node
             curr = curr->next;
         }
 
+        //Adds the remaining nodes to the merged list
         curr->next = left ? left : right;
+
+        //Returns the merged list
         return dummy.next;
     }
 
+    //Sorts the books by title using quick sort
     Book *quickSort(Book *start, bool byTitle)
     {
+        //Returns the start node if the list is empty or has one element
         if (!start || !start->next)
             return start;
 
-        Book *pivot = start;
-        Book *left = nullptr;
-        Book *right = nullptr;
-        Book *curr = start->next;
+        Book *pivot = start; // First node as pivot
+        Book *left = nullptr; // Nodes with title less than pivot
+        Book *right = nullptr; // Nodes with title greater than pivot
+        Book *curr = start->next; // Current node
 
+
+        //Partitions the list into two halves
         while (curr)
         {
+            //Stores the next node
             Book *next = curr->next;
+
+            //Adds the current node to the left or right list
             if ((byTitle && curr->title > pivot->title) ||
                 (!byTitle && curr->ISBN < pivot->ISBN))
             {
+                //Sets the next node as the left node
                 curr->next = left;
                 left = curr;
             }
+
+            //Otherwise, adds the current node to the right list
             else
             {
                 curr->next = right;
                 right = curr;
             }
+
+            //Moves to the next node
             curr = next;
         }
 
+        //Sorts the left and right lists
         left = quickSort(left, byTitle);
         right = quickSort(right, byTitle);
 
+        //Merges the sorted lists
         pivot->next = right;
+
+        //Returns the merged list
         if (!left)
             return pivot;
 
+        //Pointer to the last node in the left list
         Book *temp = left;
+
+        //Iterates through the left list to find the last node
         while (temp->next)
             temp = temp->next;
+
+        //Adds the pivot node to the end of the left list
         temp->next = pivot;
         return left;
     }
 };
 
+
+//Class to manage the order data
 class OrderManager
 {
 public:
+    //Pointer to the first order
     Order *head;
 
+    //Constructor to initialize the order manager
     OrderManager() : head(nullptr) { loadOrders(); }
     ~OrderManager() { clear(); }
 
+    //Adds a new order to the order manager
     void addOrder(Order *newOrder)
     {
+        //If the order manager is empty, set the new order as the first order
         if (!head)
             head = newOrder;
         else
         {
+            //Pointer to the last order in the order manager
             Order *temp = head;
+
+            //Iterates through the order manager to find the last order
             while (temp->next)
+
+                //Sets the next order as the last order
                 temp = temp->next;
+
+                //Adds the new order to the end of the order manager
             temp->next = newOrder;
         }
+        //Saves the orders to a file
         saveOrders();
     }
 
+    //Displays all the orders in the order manager
     void displayOrders() const
     {
+        //Pointer to the current order
         Order *current = head;
+
+        //Iterates through the order manager to display all the orders
         while (current)
         {
+            //Displays the current order
             current->display();
+
+            //Moves to the next order
             current = current->next;
         }
     }
 
+    //Deletes an order by ID
     void deleteOrder(const string &orderId)
     {
+        //Pointer to the current order and the previous order
         Order *curr = head, *prev = nullptr;
+
+        //Iterates through the order manager to find the order with the given ID
         while (curr)
-        {
+
+        {   
+            //If the ID of the current order matches the given ID
             if (curr->orderId == orderId)
             {
+                //If the previous order is not null, set the next order as the next of the previous order
                 if (prev)
                     prev->next = curr->next;
+
+                //Otherwise, set the next order as the first order
                 else
                     head = curr->next;
+
+                //Deletes the current order
                 delete curr;
                 cout << GREEN << "Order deleted!\n";
                 saveOrders();
                 return;
             }
+            //Moves to the next order
             prev = curr;
             curr = curr->next;
         }
         cout << RED << "Order not found!\n";
     }
 
+    //Saves the orders to a file
     void saveOrders()
+
     {
+        //Opens the file for writing
         ofstream file(ORDER_FILE);
+
+        //Pointer to the current order
         Order *current = head;
+
+        //Iterates through the order manager to write the order data to the file
         while (current)
         {
+            //Writes the Order ID, Customer ID, Book ISBNs, Total, and Date of the current order to the file
             file << current->orderId << "," << current->customerId << ",";
+
+            //Writes the ISBNs of the books in the order
             for (size_t i = 0; i < current->bookISBNs.size(); ++i)
             {
+                //Writes the ISBN of the book
                 file << current->bookISBNs[i];
+
+                //Writes a separator if the book is not the last book
                 if (i != current->bookISBNs.size() - 1)
+
+                    //Writes a separator
                     file << "|";
             }
+
+            //Writes the total and date of the order
             file << ";" << current->total << "," << current->date.toString() << "\n";
+
+            //Moves to the next order
             current = current->next;
         }
     }
 
+//Loads the orders from a file
 private:
+
+    //Loads the orders from a file
     void loadOrders()
     {
+        //Opens the file for reading
         ifstream file(ORDER_FILE);
+
+        //Stores the current line
         string line;
+
+        //Iterates through the lines in the file
         while (getline(file, line))
         {
+            //Creates a string stream from the line
             stringstream ss(line);
+
+            //Stores the Order ID, Customer ID, Book ISBNs, Total, and Date
             string orderId, customerId, dateStr, totalStr;
+
+            //Stores the ISBNs of the books in the order
             vector<string> isbns;
 
+            //Extracts the data from the string stream
             getline(ss, orderId, ',');
             getline(ss, customerId, ',');
 
+            //Extracts the ISBNs of the books in the order
             string isbnList;
             getline(ss, isbnList, ';');
+
+            //Creates a string stream from the ISBN list
             stringstream iss(isbnList);
+
+            //Extracts the ISBNs of the books
             string isbn;
+
+            //Iterates through the ISBNs in the list
             while (getline(iss, isbn, '|'))
             {
+                //Adds the ISBN to the list of ISBNs
                 isbns.push_back(isbn);
             }
 
+            //Extracts the total and date of the order
             getline(ss, totalStr, ',');
             getline(ss, dateStr, ',');
 
+            //Stores the date of the order
             Date orderDate;
             stringstream dss(dateStr);
+
+            //Extracts the day, month, and year of the order date
             string part;
             getline(dss, part, '/');
+
+            //Stores the day, month, and year of the order date
             orderDate.day = stoi(part);
             getline(dss, part, '/');
+
+            //Stores the month of the order date
             orderDate.month = stoi(part);
             getline(dss, part, '/');
+
+            //Stores the year of the order date
             orderDate.year = stoi(part);
 
+
+            //Adds a new order to the order manager
             addOrder(new Order(orderId, customerId, isbns, stod(totalStr), orderDate));
         }
     }
 
+    //Clears the order manager
     void clear()
+    
     {
+        //Pointer to the current order
         while (head)
         {
+            //Stores the current order to delete
             Order *temp = head;
+
+            //Moves to the next order
             head = head->next;
+
+            //Deletes the current order
             delete temp;
         }
     }
 };
 
+//Class to manage the customer data
 class CustomerManager
 {
 public:
+
+    //Pointer to the first customer
     Customer *head;
+
+    //Pointer to the admin
     Admin *admin;
 
+    //Constructor to initialize the customer manager
     CustomerManager() : head(nullptr), admin(nullptr)
     {
+        //Loads the customer and admin data from a file
         loadCustomers();
         loadAdmin();
     }
 
+    //Destructor to clear the customer manager
     ~CustomerManager()
     {
+        //Clears the customer manager
         clearCustomers();
         delete admin;
     }
