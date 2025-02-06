@@ -1547,6 +1547,7 @@ private:
         case 9:
             BookstoreApp app;
             app.run();
+            break;
         }
         } while (choice != 9);
 
@@ -1649,6 +1650,7 @@ do{
         case 9:
             BookstoreApp app;
             app.run();
+            break;
         }
         } while (choice != 9);
     }
