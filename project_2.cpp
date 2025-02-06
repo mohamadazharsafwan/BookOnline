@@ -818,7 +818,7 @@ public:
     Order *head;
 
     // Constructor to initialize the order manager
-    OrderManager() : head(nullptr) { loadOrders(); }
+    OrderManager() : head(nullptr) { loadOrders(); } // Loads the orders from a file when the order manager is created
     ~OrderManager() { clear(); }
 
     // Adds a new order to the order manager
@@ -1487,68 +1487,65 @@ private:
              << "8. View Reviews\n"
              << "9. Logout\nChoice: ";
         cin >> choice;
-        do{
+        do {
+            // Performs the selected action
+            switch (choice) {
+                // Displays the customer profile
+                case 1:
+                    customer->display();
+                    break;
 
-        // Performs the selected action
-        switch (choice)
+                // Displays the books
+                case 2:
+                    displayBooks();
+                    searchBookByISBN();
+                    break;
 
-        {
-            // Displays the customer profile
-        case 1:
-            customer->display();
-            break;
+                // Displays the order history
+                case 3:
+                    displayOrderHistory(customer);
+                    break;
 
-            // Displays the books
-        case 2:
-            displayBooks();
-            searchBookByISBN();
-            break;
+                // Places an order
+                case 4:
+                    placeOrder(customer);
+                    break;
 
-            // Displays the order history
-        case 3:
-            displayOrderHistory(customer);
-            break;
+                // Updates the customer profile
+                case 5:
+                    customer->updateProfile();
+                    customers.saveCustomers();
+                    break;
 
-            // Places an order
-        case 4:
-            placeOrder(customer);
-            break;
-
-            // Updates the customer profile
-        case 5:
-            customer->updateProfile();
-            customers.saveCustomers();
-            break;
-
-            // Deletes the customer account
-        case 6:
-            customers.deleteCustomer(customer);
-            return;
-        case 7:
-        {
-            Review newReview;
-            cout << "Enter book ISBN: ";
-            cin >> newReview.ISBN;
-            cout << "Enter rating (1-5): ";
-            cin >> newReview.rating;
-            cout << "Enter review text: ";
-            cin.ignore();
-            getline(cin, newReview.reviewText);
-            newReview.customerId = customer->id;
-            reviews.push_back(newReview);
-            saveReviews(); // Add this line
-            break;
-        }
-        case 8:
-        {
-            viewReviews();
-            break;
-        }
-        case 9:
-            BookstoreApp app;
-            app.run();
-            break;
-        }
+                // Deletes the customer account
+                case 6:
+                    customers.deleteCustomer(customer);
+                    return;
+                case 7:
+                {
+                    Review newReview;
+                    cout << "Enter book ISBN: ";
+                    cin >> newReview.ISBN;
+                    cout << "Enter rating (1-5): ";
+                    cin >> newReview.rating;
+                    cout << "Enter review text: ";
+                    cin.ignore();
+                    getline(cin, newReview.reviewText);
+                    newReview.customerId = customer->id;
+                    reviews.push_back(newReview);
+                    saveReviews(); // Add this line
+                    break;
+                }
+                case 8:
+                {
+                    viewReviews();
+                    break;
+                }
+                case 9:
+                    BookstoreApp app;
+                    app.run();
+                    break;
+            }
         } while (choice != 9);
 
 
