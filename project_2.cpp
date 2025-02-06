@@ -69,7 +69,8 @@ struct Date
     bool operator<=(const Date &other) const { return !(*this > other); }
 };
 
-Date getCurrentDate() {
+Date getCurrentDate()
+{
     time_t now = time(0);
     tm *ltm = localtime(&now);
     return {ltm->tm_mday, 1 + ltm->tm_mon, 1900 + ltm->tm_year};
@@ -1476,78 +1477,79 @@ private:
     {
         int choice;
 
-        cout << YELLOW << "\nCustomer Menu\n"
-             << "1. View Profile\n"
-             << "2. View Books\n"
-             << "3. View Order History\n"
-             << "4. Place Order\n"
-             << "5. Edit Profile\n"
-             << "6. Delete Account\n"
-             << "7. Write Review\n"
-             << "8. View Reviews\n"
-             << "9. Logout\nChoice: ";
-        cin >> choice;
-        do {
+        do
+        {
+            cout << YELLOW << "\nCustomer Menu\n"
+                 << "1. View Profile\n"
+                 << "2. View Books\n"
+                 << "3. View Order History\n"
+                 << "4. Place Order\n"
+                 << "5. Edit Profile\n"
+                 << "6. Delete Account\n"
+                 << "7. Write Review\n"
+                 << "8. View Reviews\n"
+                 << "9. Logout\nChoice: ";
+            cin >> choice;
             // Performs the selected action
-            switch (choice) {
-                // Displays the customer profile
-                case 1:
-                    customer->display();
-                    break;
+            switch (choice)
+            {
+            // Displays the customer profile
+            case 1:
+                customer->display();
+                break;
 
-                // Displays the books
-                case 2:
-                    displayBooks();
-                    searchBookByISBN();
-                    break;
+            // Displays the books
+            case 2:
+                displayBooks();
+                searchBookByISBN();
+                break;
 
-                // Displays the order history
-                case 3:
-                    displayOrderHistory(customer);
-                    break;
+            // Displays the order history
+            case 3:
+                displayOrderHistory(customer);
+                break;
 
-                // Places an order
-                case 4:
-                    placeOrder(customer);
-                    break;
+            // Places an order
+            case 4:
+                placeOrder(customer);
+                break;
 
-                // Updates the customer profile
-                case 5:
-                    customer->updateProfile();
-                    customers.saveCustomers();
-                    break;
+            // Updates the customer profile
+            case 5:
+                customer->updateProfile();
+                customers.saveCustomers();
+                break;
 
-                // Deletes the customer account
-                case 6:
-                    customers.deleteCustomer(customer);
-                    return;
-                case 7:
-                {
-                    Review newReview;
-                    cout << "Enter book ISBN: ";
-                    cin >> newReview.ISBN;
-                    cout << "Enter rating (1-5): ";
-                    cin >> newReview.rating;
-                    cout << "Enter review text: ";
-                    cin.ignore();
-                    getline(cin, newReview.reviewText);
-                    newReview.customerId = customer->id;
-                    reviews.push_back(newReview);
-                    saveReviews(); // Add this line
-                    break;
-                }
-                case 8:
-                {
-                    viewReviews();
-                    break;
-                }
-                case 9:
-                    BookstoreApp app;
-                    app.run();
-                    break;
+            // Deletes the customer account
+            case 6:
+                customers.deleteCustomer(customer);
+                return;
+            case 7:
+            {
+                Review newReview;
+                cout << "Enter book ISBN: ";
+                cin >> newReview.ISBN;
+                cout << "Enter rating (1-5): ";
+                cin >> newReview.rating;
+                cout << "Enter review text: ";
+                cin.ignore();
+                getline(cin, newReview.reviewText);
+                newReview.customerId = customer->id;
+                reviews.push_back(newReview);
+                saveReviews(); // Add this line
+                break;
+            }
+            case 8:
+            {
+                viewReviews();
+                break;
+            }
+            case 9:
+                BookstoreApp app;
+                app.run();
+                break;
             }
         } while (choice != 9);
-
 
         // Logs out the customer
     }
@@ -1584,71 +1586,72 @@ private:
 
         // Displays the admin menu
 
-        cout << RED << "\nAdmin Menu\n"
-             << "1. View Customers\n"
-             << "2. View Orders\n"
-             << "3. View Books\n"
-             << "4. Add Book\n"
-             << "5. Edit Book\n"
-             << "6. Delete Book\n"
-             << "7. Generate Report\n"
-             << "8. Add Featured Book\n"
-             << "9. Logout\nChoice: ";
-        cin >> choice;
-do{
-        switch (choice)
+        do
         {
-        case 1:
-            displayCustomers();
-            break;
-        case 2:
-            orders.displayOrders();
-            break;
-        case 3:
-            displayBooks();
-            searchBookByISBN();
-            break;
-        case 4:
-            addBook();
-            break;
-        case 5:
-            editBook();
-            break;
-        case 6:
-            deleteBook();
-            break;
-        case 7:
-            generateReport();
-            break;
-            // new add
-        case 8:
-        {
-            string ISBN, title, author;
-            double price;
-            int stock, day, month, year;
-            cout << "Enter ISBN: ";
-            cin >> ISBN;
-            cout << "Enter title: ";
-            cin.ignore();
-            getline(cin, title);
-            cout << "Enter author: ";
-            getline(cin, author);
-            cout << "Enter price: ";
-            cin >> price;
-            cout << "Enter stock: ";
-            cin >> stock;
-            cout << "Enter feature expiration date (dd mm yyyy): ";
-            cin >> day >> month >> year;
-            books.addBook(new FeaturedBook(ISBN, title, author, price, stock, {day, month, year}));
-            books.saveFeaturedBooks(); // Add this line
-            break;
-        }
-        // logout
-        case 9:
-            BookstoreApp app;
-            app.run();
-            break;
-        }
+            cout << RED << "\nAdmin Menu\n"
+                 << "1. View Customers\n"
+                 << "2. View Orders\n"
+                 << "3. View Books\n"
+                 << "4. Add Book\n"
+                 << "5. Edit Book\n"
+                 << "6. Delete Book\n"
+                 << "7. Generate Report\n"
+                 << "8. Add Featured Book\n"
+                 << "9. Logout\nChoice: ";
+            cin >> choice;
+            switch (choice)
+            {
+            case 1:
+                displayCustomers();
+                break;
+            case 2:
+                orders.displayOrders();
+                break;
+            case 3:
+                displayBooks();
+                searchBookByISBN();
+                break;
+            case 4:
+                addBook();
+                break;
+            case 5:
+                editBook();
+                break;
+            case 6:
+                deleteBook();
+                break;
+            case 7:
+                generateReport();
+                break;
+                // new add
+            case 8:
+            {
+                string ISBN, title, author;
+                double price;
+                int stock, day, month, year;
+                cout << "Enter ISBN: ";
+                cin >> ISBN;
+                cout << "Enter title: ";
+                cin.ignore();
+                getline(cin, title);
+                cout << "Enter author: ";
+                getline(cin, author);
+                cout << "Enter price: ";
+                cin >> price;
+                cout << "Enter stock: ";
+                cin >> stock;
+                cout << "Enter feature expiration date (dd mm yyyy): ";
+                cin >> day >> month >> year;
+                books.addBook(new FeaturedBook(ISBN, title, author, price, stock, {day, month, year}));
+                books.saveFeaturedBooks(); // Add this line
+                break;
+            }
+            // logout
+            case 9:
+                BookstoreApp app;
+                app.run();
+                break;
+            }
         } while (choice != 9);
     }
 
