@@ -1487,6 +1487,7 @@ private:
              << "8. View Reviews\n"
              << "9. Logout\nChoice: ";
         cin >> choice;
+        do{
 
         // Performs the selected action
         switch (choice)
@@ -1547,6 +1548,8 @@ private:
             BookstoreApp app;
             app.run();
         }
+        } while (choice != 9);
+
 
         // Logs out the customer
     }
@@ -1594,7 +1597,7 @@ private:
              << "8. Add Featured Book\n"
              << "9. Logout\nChoice: ";
         cin >> choice;
-
+do{
         switch (choice)
         {
         case 1:
@@ -1647,6 +1650,7 @@ private:
             BookstoreApp app;
             app.run();
         }
+        } while (choice != 9);
     }
 
     void displayBooks()
