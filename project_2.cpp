@@ -1119,6 +1119,8 @@ private:
     }
 };
 
+
+// new inheritance class
 class FeaturedBook : public Book
 {
 public:
