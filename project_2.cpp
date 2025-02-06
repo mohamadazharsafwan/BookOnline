@@ -86,7 +86,7 @@ struct Review
 
     string toString() const
     {
-        return "Book: " + ISBN + "\nCustomer: " + customerId + "\nRating: " + to_string(rating) + "/5\n" + "Date: " + reviewDate.toString() + "\n" + "Review: " + reviewText + "\n";
+        return "Book: " + ISBN + "\nCustomer: " + customerId + "\nRating: " + to_string(rating) + "/5\n" + "Review: " + reviewText + "\n";
     }
 
     static vector<Review> loadReviews()
