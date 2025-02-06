@@ -1484,7 +1484,8 @@ private:
              << "5. Edit Profile\n"
              << "6. Delete Account\n"
              << "7. Write Review\n"
-             << "8. Logout\nChoice: ";
+             << "8. View Reviews\n"
+             << "9. Logout\nChoice: ";
         cin >> choice;
 
         // Performs the selected action
