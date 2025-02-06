@@ -31,6 +31,10 @@ const string ADMIN_FILE = "admins.txt";
 // Stores the filename for the sales report file
 const string SALES_FILE = "sales_report.txt";
 
+// Add new constants
+const string REVIEW_FILE = "reviews.txt";
+const string FEATURED_FILE = "featured.txt";
+
 // Structure to store the date
 struct Date
 {
@@ -60,7 +64,16 @@ struct Date
             return month > other.month;
         return day > other.day;
     }
+
+    bool operator<(const Date &other) const { return other > *this; }
+    bool operator<=(const Date &other) const { return !(*this > other); }
 };
+
+Date getCurrentDate() {
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    return {ltm->tm_mday, 1 + ltm->tm_mon, 1900 + ltm->tm_year};
+}
 
 struct Review
 {
@@ -68,13 +81,44 @@ struct Review
     string customerId;
     string reviewText;
     int rating;
+    Date reviewDate;
 
     string toString() const
     {
-        return "Book: " + ISBN + "\nReview by: " + customerId + "\nRating: " + to_string(rating) + "/5\n" + reviewText + "\n";
+        return "Book: " + ISBN + "\nCustomer: " + customerId + "\nRating: " + to_string(rating) + "/5\n" + "Date: " + reviewDate.toString() + "\n" + "Review: " + reviewText + "\n";
+    }
+
+    static vector<Review> loadReviews()
+    {
+        vector<Review> reviews;
+        ifstream file(REVIEW_FILE);
+        string line;
+        while (getline(file, line))
+        {
+            stringstream ss(line);
+            Review r;
+            getline(ss, r.ISBN, ',');
+            getline(ss, r.customerId, ',');
+            getline(ss, r.reviewText, ',');
+            ss >> r.rating;
+            ss.ignore();
+            ss >> r.reviewDate.day >> r.reviewDate.month >> r.reviewDate.year;
+            reviews.push_back(r);
+        }
+        return reviews;
+    }
+
+    static void saveReviews(const vector<Review> &reviews)
+    {
+        ofstream file(REVIEW_FILE);
+        for (const auto &r : reviews)
+        {
+            file << r.ISBN << "," << r.customerId << "," << r.reviewText << ","
+                 << r.rating << "," << r.reviewDate.day << " "
+                 << r.reviewDate.month << " " << r.reviewDate.year << "\n";
+        }
     }
 };
-
 // Class to store the book data
 class Book
 {
@@ -94,7 +138,7 @@ public:
         : ISBN(isbn), title(t), author(a), price(p), stock(s), next(nullptr) {}
 
     // Displays the book data
-    void display() const
+    virtual void display() const
     {
         // Displays the book data in the format ISBN, title, author, price, and stock
         cout << YELLOW << "ISBN: " << ISBN << "\nTitle: " << title
@@ -237,10 +281,51 @@ public:
              << "\nEmail: " << email << RESET << "\n\n";
     }
 };
+class FeaturedBook : public Book
+{
+public:
+    Date featuredUntil;
+
+    FeaturedBook(string isbn, string t, string a, double p, int s, Date date)
+        : Book(isbn, t, a, p, s), featuredUntil(date) {}
+
+    bool isExpired() const
+    {
+        Date current = getCurrentDate();
+        return featuredUntil > current;
+    }
+
+    void display() const override
+    {
+        Book::display();
+        cout << BLUE << "Featured until: " << featuredUntil.toString() << RESET << "\n";
+    }
+};
 
 // Class to manage the book data
 class BookManager
 {
+private:
+    void loadFeaturedBooks()
+    {
+        ifstream file(FEATURED_FILE);
+        string line;
+        while (getline(file, line))
+        {
+            stringstream ss(line);
+            string ISBN, title, author, priceStr, stockStr;
+            int day, month, year;
+            getline(ss, ISBN, ',');
+            getline(ss, title, ',');
+            getline(ss, author, ',');
+            getline(ss, priceStr, ',');
+            getline(ss, stockStr, ',');
+            ss >> day >> month >> year;
+            addBook(new FeaturedBook(ISBN, title, author, stod(priceStr),
+                                     stoi(stockStr), {day, month, year}));
+        }
+    }
+
 public:
     // Pointer to the first book
     Book *head;
@@ -368,6 +453,23 @@ public:
         }
     }
 
+    void saveFeaturedBooks()
+    {
+        ofstream file(FEATURED_FILE);
+        Book *current = head;
+        while (current)
+        {
+            if (auto fb = dynamic_cast<FeaturedBook *>(current))
+            {
+                file << fb->ISBN << "," << fb->title << "," << fb->author << ","
+                     << fb->price << "," << fb->stock << ","
+                     << fb->featuredUntil.day << " " << fb->featuredUntil.month
+                     << " " << fb->featuredUntil.year << "\n";
+            }
+            current = current->next;
+        }
+    }
+
     // Loads the book data from a file
     void mergeSortByTitle()
     {
@@ -481,7 +583,7 @@ private:
 
     {
         // existing data 50
-                addBook(new Book("978-0-7432-7356-5", "The Da Vinci Code", "Dan Brown", 19.99, 50));
+        addBook(new Book("978-0-7432-7356-5", "The Da Vinci Code", "Dan Brown", 19.99, 50));
         addBook(new Book("978-0-452-28423-4", "1984", "George Orwell", 9.99, 100));
         addBook(new Book("978-0-06-112008-4", "To Kill a Mockingbird", "Harper Lee", 14.99, 75));
         addBook(new Book("978-0-316-76948-8", "The Catcher in the Rye", "J.D. Salinger", 10.99, 60));
@@ -1172,13 +1274,6 @@ private:
 };
 
 // new inheritance class
-class FeaturedBook : public Book
-{
-public:
-    Date featuredUntil;
-    FeaturedBook(string isbn, string t, string a, double p, int s, Date date)
-        : Book(isbn, t, a, p, s), featuredUntil(date) {}
-};
 
 class PremiumCustomer : public Customer
 {
@@ -1233,6 +1328,25 @@ class BookstoreApp
 {
 private:
     vector<Review> reviews;
+
+    void loadReviews()
+    {
+        reviews = Review::loadReviews();
+    }
+
+    void saveReviews()
+    {
+        Review::saveReviews(reviews);
+    }
+
+    void viewReviews()
+    {
+        cout << YELLOW << "\n--- Book Reviews ---\n";
+        for (const auto &r : reviews)
+        {
+            cout << r.toString() << "\n";
+        }
+    }
     // Stores the book manager, customer manager, and order manager
     BookManager books;
     CustomerManager customers;
@@ -1361,77 +1475,79 @@ private:
     void customerMenu(Customer *customer)
     {
         int choice;
-        do
+
+        cout << YELLOW << "\nCustomer Menu\n"
+             << "1. View Profile\n"
+             << "2. View Books\n"
+             << "3. View Order History\n"
+             << "4. Place Order\n"
+             << "5. Edit Profile\n"
+             << "6. Delete Account\n"
+             << "7. Write Review\n"
+             << "8. Logout\nChoice: ";
+        cin >> choice;
+
+        // Performs the selected action
+        switch (choice)
+
         {
-            cout << YELLOW << "\nCustomer Menu\n"
-                 << "1. View Profile\n"
-                 << "2. View Books\n"
-                 << "3. View Order History\n"
-                 << "4. Place Order\n"
-                 << "5. Edit Profile\n"
-                 << "6. Delete Account\n"
-                 << "7. Write Review\n"
-                 << "8. Logout\nChoice: ";
-            cin >> choice;
+            // Displays the customer profile
+        case 1:
+            customer->display();
+            break;
 
-            // Performs the selected action
-            switch (choice)
+            // Displays the books
+        case 2:
+            displayBooks();
+            searchBookByISBN();
+            break;
 
-            {
-                // Displays the customer profile
-            case 1:
-                customer->display();
-                break;
+            // Displays the order history
+        case 3:
+            displayOrderHistory(customer);
+            break;
 
-                // Displays the books
-            case 2:
-                displayBooks();
-                searchBookByISBN();
-                break;
+            // Places an order
+        case 4:
+            placeOrder(customer);
+            break;
 
-                // Displays the order history
-            case 3:
-                displayOrderHistory(customer);
-                break;
+            // Updates the customer profile
+        case 5:
+            customer->updateProfile();
+            customers.saveCustomers();
+            break;
 
-                // Places an order
-            case 4:
-                placeOrder(customer);
-                break;
+            // Deletes the customer account
+        case 6:
+            customers.deleteCustomer(customer);
+            return;
+        case 7:
+        {
+            Review newReview;
+            cout << "Enter book ISBN: ";
+            cin >> newReview.ISBN;
+            cout << "Enter rating (1-5): ";
+            cin >> newReview.rating;
+            cout << "Enter review text: ";
+            cin.ignore();
+            getline(cin, newReview.reviewText);
+            newReview.customerId = customer->id;
+            reviews.push_back(newReview);
+            saveReviews(); // Add this line
+            break;
+        }
+        case 8:
+        {
+            viewReviews();
+            break;
+        }
+        case 9:
+            BookstoreApp app;
+            app.run();
+        }
 
-                // Updates the customer profile
-            case 5:
-                customer->updateProfile();
-                customers.saveCustomers();
-                break;
-
-                // Deletes the customer account
-            case 6:
-                customers.deleteCustomer(customer);
-                return;
-            case 7:
-            {
-                Review newReview;
-                cout << "Enter book ISBN: ";
-                cin >> newReview.ISBN;
-                cout << "Enter rating (1-5): ";
-                cin >> newReview.rating;
-                cout << "Enter review text: ";
-                cin.ignore();
-                getline(cin, newReview.reviewText);
-                newReview.customerId = customer->id;
-                reviews.push_back(newReview);
-                cout << GREEN << "Review submitted!\n"
-                     << RESET;
-                break;
-            }
-            case 8:
-                BookstoreApp app;
-                app.run();
-            }
-
-            // Logs out the customer
-        } while (choice != 7);
+        // Logs out the customer
     }
 
     // Admin flow
@@ -1522,7 +1638,7 @@ private:
             cout << "Enter feature expiration date (dd mm yyyy): ";
             cin >> day >> month >> year;
             books.addBook(new FeaturedBook(ISBN, title, author, price, stock, {day, month, year}));
-            books.saveToFile();
+            books.saveFeaturedBooks(); // Add this line
             break;
         }
         // logout
@@ -1534,8 +1650,22 @@ private:
 
     void displayBooks()
     {
-        cout << "\nBooks:\n";
-        books.displayBooks(); // Original list
+        cout << "\nFeatured Books:\n";
+        Book *current = books.head;
+        while (current)
+        {
+            if (auto fb = dynamic_cast<FeaturedBook *>(current))
+            {
+                if (!fb->isExpired())
+                {
+                    fb->display();
+                }
+            }
+            current = current->next;
+        }
+
+        cout << "\nAll Books:\n";
+        books.displayBooks();
 
         // Optional: Show sorted versions without modifying the original list
         cout << "Choose sorting algorithm (0 to skip):\n"
@@ -1582,13 +1712,6 @@ private:
             current->display();
             current = current->next;
         }
-    }
-
-    Date getCurrentDate()
-    {
-        time_t now = time(0);
-        tm *ltm = localtime(&now);
-        return {ltm->tm_mday, 1 + ltm->tm_mon, 1900 + ltm->tm_year};
     }
 
     void placeOrder(Customer *customer)
