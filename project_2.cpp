@@ -480,6 +480,58 @@ private:
     void loadFromFile()
 
     {
+        // existing data 50
+                addBook(new Book("978-0-7432-7356-5", "The Da Vinci Code", "Dan Brown", 19.99, 50));
+        addBook(new Book("978-0-452-28423-4", "1984", "George Orwell", 9.99, 100));
+        addBook(new Book("978-0-06-112008-4", "To Kill a Mockingbird", "Harper Lee", 14.99, 75));
+        addBook(new Book("978-0-316-76948-8", "The Catcher in the Rye", "J.D. Salinger", 10.99, 60));
+        addBook(new Book("978-0-7432-7355-8", "Angels & Demons", "Dan Brown", 18.99, 40));
+        addBook(new Book("978-0-14-028333-4", "Pride and Prejudice", "Jane Austen", 12.99, 85));
+        addBook(new Book("978-0-7432-7354-1", "The Lost Symbol", "Dan Brown", 20.99, 30));
+        addBook(new Book("978-0-452-28425-8", "Animal Farm", "George Orwell", 8.99, 90));
+        addBook(new Book("978-0-06-112241-5", "Brave New World", "Aldous Huxley", 15.99, 65));
+        addBook(new Book("978-0-7432-7353-4", "Inferno", "Dan Brown", 21.99, 25));
+        addBook(new Book("978-0-14-143960-0", "Great Expectations", "Charles Dickens", 13.99, 70));
+        addBook(new Book("978-0-7432-7352-7", "Digital Fortress", "Dan Brown", 17.99, 55));
+        addBook(new Book("978-0-14-044913-6", "Crime and Punishment", "Fyodor Dostoevsky", 16.99, 45));
+        addBook(new Book("978-0-7432-7351-0", "Deception Point", "Dan Brown", 19.49, 35));
+        addBook(new Book("978-0-14-044926-6", "The Brothers Karamazov", "Fyodor Dostoevsky", 18.99, 50));
+        addBook(new Book("978-0-7432-7350-3", "Origin", "Dan Brown", 22.99, 20));
+        addBook(new Book("978-0-14-044927-3", "The Idiot", "Fyodor Dostoevsky", 17.99, 40));
+        addBook(new Book("978-0-7432-7349-7", "The Girl with the Dragon Tattoo", "Stieg Larsson", 14.49, 80));
+        addBook(new Book("978-0-14-044928-0", "Demons", "Fyodor Dostoevsky", 16.49, 35));
+        addBook(new Book("978-0-7432-7348-0", "The Girl Who Played with Fire", "Stieg Larsson", 15.49, 70));
+        addBook(new Book("978-0-14-044929-7", "Notes from Underground", "Fyodor Dostoevsky", 12.49, 60));
+        addBook(new Book("978-0-7432-7347-3", "The Girl Who Kicked the Hornet's Nest", "Stieg Larsson", 16.49, 65));
+        addBook(new Book("978-0-14-044930-3", "The Gambler", "Fyodor Dostoevsky", 11.99, 55));
+        addBook(new Book("978-0-7432-7346-6", "The Hunger Games", "Suzanne Collins", 13.49, 95));
+        addBook(new Book("978-0-14-044931-0", "The Double", "Fyodor Dostoevsky", 10.99, 50));
+        addBook(new Book("978-0-7432-7345-9", "Catching Fire", "Suzanne Collins", 14.49, 85));
+        addBook(new Book("978-0-14-044932-7", "The Eternal Husband", "Fyodor Dostoevsky", 12.99, 45));
+        addBook(new Book("978-0-7432-7344-2", "Mockingjay", "Suzanne Collins", 15.49, 75));
+        addBook(new Book("978-0-14-044933-4", "The House of the Dead", "Fyodor Dostoevsky", 13.99, 40));
+        addBook(new Book("978-0-7432-7343-5", "The Hobbit", "J.R.R. Tolkien", 14.99, 90));
+        addBook(new Book("978-0-14-044934-1", "Poor Folk", "Fyodor Dostoevsky", 11.49, 55));
+        addBook(new Book("978-0-7432-7342-8", "The Fellowship of the Ring", "J.R.R. Tolkien", 15.99, 80));
+        addBook(new Book("978-0-14-044935-8", "The Village of Stepanchikovo", "Fyodor Dostoevsky", 12.49, 50));
+        addBook(new Book("978-0-7432-7341-1", "The Two Towers", "J.R.R. Tolkien", 16.99, 70));
+        addBook(new Book("978-0-14-044936-5", "The Adolescent", "Fyodor Dostoevsky", 14.99, 45));
+        addBook(new Book("978-0-7432-7340-4", "The Return of the King", "J.R.R. Tolkien", 17.99, 60));
+        addBook(new Book("978-0-14-044937-2", "Uncle's Dream", "Fyodor Dostoevsky", 10.49, 50));
+        addBook(new Book("978-0-7432-7339-8", "Harry Potter and the Sorcerer's Stone", "J.K. Rowling", 12.99, 100));
+        addBook(new Book("978-0-14-044938-9", "The Landlady", "Fyodor Dostoevsky", 9.99, 55));
+        addBook(new Book("978-0-7432-7338-1", "Harry Potter and the Chamber of Secrets", "J.K. Rowling", 13.99, 95));
+        addBook(new Book("978-0-14-044939-6", "White Nights", "Fyodor Dostoevsky", 8.99, 60));
+        addBook(new Book("978-0-7432-7337-4", "Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", 14.99, 90));
+        addBook(new Book("978-0-14-044940-2", "Netochka Nezvanova", "Fyodor Dostoevsky", 7.99, 65));
+        addBook(new Book("978-0-7432-7336-7", "Harry Potter and the Goblet of Fire", "J.K. Rowling", 15.99, 85));
+        addBook(new Book("978-0-14-044941-9", "The Insulted and Injured", "Fyodor Dostoevsky", 6.99, 70));
+        addBook(new Book("978-0-7432-7335-0", "Harry Potter and the Order of the Phoenix", "J.K. Rowling", 16.99, 80));
+        addBook(new Book("978-0-14-044942-6", "The House of the Dead", "Fyodor Dostoevsky", 5.99, 75));
+        addBook(new Book("978-0-7432-7334-3", "Harry Potter and the Half-Blood Prince", "J.K. Rowling", 17.99, 75));
+        addBook(new Book("978-0-14-044943-3", "The Gambler", "Fyodor Dostoevsky", 4.99, 80));
+        addBook(new Book("978-0-7432-7333-6", "Harry Potter and the Deathly Hallows", "J.K. Rowling", 18.99, 70));
+
         // Opens the file for reading
         ifstream file(BOOK_FILE);
         // Stores the current line
@@ -1716,59 +1768,7 @@ private:
 // Main function
 int main()
 {
-    BookManager books;
 
-    //existing data 50
-    books.addBook(new Book("978-0-7432-7356-5", "The Da Vinci Code", "Dan Brown", 19.99, 50));
-    books.addBook(new Book("978-0-452-28423-4", "1984", "George Orwell", 9.99, 100));
-    books.addBook(new Book("978-0-06-112008-4", "To Kill a Mockingbird", "Harper Lee", 14.99, 75));
-    books.addBook(new Book("978-0-316-76948-8", "The Catcher in the Rye", "J.D. Salinger", 10.99, 60));
-    books.addBook(new Book("978-0-7432-7355-8", "Angels & Demons", "Dan Brown", 18.99, 40));
-    books.addBook(new Book("978-0-14-028333-4", "Pride and Prejudice", "Jane Austen", 12.99, 85));
-    books.addBook(new Book("978-0-7432-7354-1", "The Lost Symbol", "Dan Brown", 20.99, 30));
-    books.addBook(new Book("978-0-452-28425-8", "Animal Farm", "George Orwell", 8.99, 90));
-    books.addBook(new Book("978-0-06-112241-5", "Brave New World", "Aldous Huxley", 15.99, 65));
-    books.addBook(new Book("978-0-7432-7353-4", "Inferno", "Dan Brown", 21.99, 25));
-    books.addBook(new Book("978-0-14-143960-0", "Great Expectations", "Charles Dickens", 13.99, 70));
-    books.addBook(new Book("978-0-7432-7352-7", "Digital Fortress", "Dan Brown", 17.99, 55));
-    books.addBook(new Book("978-0-14-044913-6", "Crime and Punishment", "Fyodor Dostoevsky", 16.99, 45));
-    books.addBook(new Book("978-0-7432-7351-0", "Deception Point", "Dan Brown", 19.49, 35));
-    books.addBook(new Book("978-0-14-044926-6", "The Brothers Karamazov", "Fyodor Dostoevsky", 18.99, 50));
-    books.addBook(new Book("978-0-7432-7350-3", "Origin", "Dan Brown", 22.99, 20));
-    books.addBook(new Book("978-0-14-044927-3", "The Idiot", "Fyodor Dostoevsky", 17.99, 40));
-    books.addBook(new Book("978-0-7432-7349-7", "The Girl with the Dragon Tattoo", "Stieg Larsson", 14.49, 80));
-    books.addBook(new Book("978-0-14-044928-0", "Demons", "Fyodor Dostoevsky", 16.49, 35));
-    books.addBook(new Book("978-0-7432-7348-0", "The Girl Who Played with Fire", "Stieg Larsson", 15.49, 70));
-    books.addBook(new Book("978-0-14-044929-7", "Notes from Underground", "Fyodor Dostoevsky", 12.49, 60));
-    books.addBook(new Book("978-0-7432-7347-3", "The Girl Who Kicked the Hornet's Nest", "Stieg Larsson", 16.49, 65));
-    books.addBook(new Book("978-0-14-044930-3", "The Gambler", "Fyodor Dostoevsky", 11.99, 55));
-    books.addBook(new Book("978-0-7432-7346-6", "The Hunger Games", "Suzanne Collins", 13.49, 95));
-    books.addBook(new Book("978-0-14-044931-0", "The Double", "Fyodor Dostoevsky", 10.99, 50));
-    books.addBook(new Book("978-0-7432-7345-9", "Catching Fire", "Suzanne Collins", 14.49, 85));
-    books.addBook(new Book("978-0-14-044932-7", "The Eternal Husband", "Fyodor Dostoevsky", 12.99, 45));
-    books.addBook(new Book("978-0-7432-7344-2", "Mockingjay", "Suzanne Collins", 15.49, 75));
-    books.addBook(new Book("978-0-14-044933-4", "The House of the Dead", "Fyodor Dostoevsky", 13.99, 40));
-    books.addBook(new Book("978-0-7432-7343-5", "The Hobbit", "J.R.R. Tolkien", 14.99, 90));
-    books.addBook(new Book("978-0-14-044934-1", "Poor Folk", "Fyodor Dostoevsky", 11.49, 55));
-    books.addBook(new Book("978-0-7432-7342-8", "The Fellowship of the Ring", "J.R.R. Tolkien", 15.99, 80));
-    books.addBook(new Book("978-0-14-044935-8", "The Village of Stepanchikovo", "Fyodor Dostoevsky", 12.49, 50));
-    books.addBook(new Book("978-0-7432-7341-1", "The Two Towers", "J.R.R. Tolkien", 16.99, 70));
-    books.addBook(new Book("978-0-14-044936-5", "The Adolescent", "Fyodor Dostoevsky", 14.99, 45));
-    books.addBook(new Book("978-0-7432-7340-4", "The Return of the King", "J.R.R. Tolkien", 17.99, 60));
-    books.addBook(new Book("978-0-14-044937-2", "Uncle's Dream", "Fyodor Dostoevsky", 10.49, 50));
-    books.addBook(new Book("978-0-7432-7339-8", "Harry Potter and the Sorcerer's Stone", "J.K. Rowling", 12.99, 100));
-    books.addBook(new Book("978-0-14-044938-9", "The Landlady", "Fyodor Dostoevsky", 9.99, 55));
-    books.addBook(new Book("978-0-7432-7338-1", "Harry Potter and the Chamber of Secrets", "J.K. Rowling", 13.99, 95));
-    books.addBook(new Book("978-0-14-044939-6", "White Nights", "Fyodor Dostoevsky", 8.99, 60));
-    books.addBook(new Book("978-0-7432-7337-4", "Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", 14.99, 90));
-    books.addBook(new Book("978-0-14-044940-2", "Netochka Nezvanova", "Fyodor Dostoevsky", 7.99, 65));
-    books.addBook(new Book("978-0-7432-7336-7", "Harry Potter and the Goblet of Fire", "J.K. Rowling", 15.99, 85));
-    books.addBook(new Book("978-0-14-044941-9", "The Insulted and Injured", "Fyodor Dostoevsky", 6.99, 70));
-    books.addBook(new Book("978-0-7432-7335-0", "Harry Potter and the Order of the Phoenix", "J.K. Rowling", 16.99, 80));
-    books.addBook(new Book("978-0-14-044942-6", "The House of the Dead", "Fyodor Dostoevsky", 5.99, 75));
-    books.addBook(new Book("978-0-7432-7334-3", "Harry Potter and the Half-Blood Prince", "J.K. Rowling", 17.99, 75));
-    books.addBook(new Book("978-0-14-044943-3", "The Gambler", "Fyodor Dostoevsky", 4.99, 80));
-    books.addBook(new Book("978-0-7432-7333-6", "Harry Potter and the Deathly Hallows", "J.K. Rowling", 18.99, 70));
     // Creates a bookstore application and runs it
     BookstoreApp app;
     app.run();
